@@ -34,6 +34,6 @@ Steps to use:
 4. Downloading ready docx
 
 The very first example is taken [from original repository](https://github.com/open-xml-templating/docxtemplater/tree/master/examples) 
-and included in this repository. There are more examples which you can test.
+and included in this repository. There are more examples in original repository which you can test.
 
 Thanks to docxtemplater authors)
