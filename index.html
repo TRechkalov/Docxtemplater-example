@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<head>
+<title>Docxtemplater example</title>
+
+<link rel="stylesheet" type="text/css" href="style/style.css"
+	media="screen" />
+
+<script src="libs/FileSaver.js"></script>
+<script src="libs/jszip-utils.js"></script>
+
+<!-- <script src="libs/docxgen.js"></script> -->
+<script src="libs/docxgen.min.js"></script>
+
+</head>
+<body onload="onLoad()">
+
+<textarea id="templateText" style="width:300px;height:200px;">
+{
+"first_name" : "Hipp",
+"last_name" : "Edgar",
+"phone" : "0652455478",
+"description" : "New Website"
+}
+</textarea>
+<br>
+<input type="file" id="docxTemplateInput">Select docx template</input>
+
+  <script type="text/javascript">
+	function onLoad(){
+			document.getElementById("docxTemplateInput").addEventListener("change", readTemplateFile);
+	}
+	
+	readTemplateFile = function(evt) {
+		// Retrieve the first (and only!) File from the FileList object
+		var f = evt.target.files[0];
+
+		if (f) {
+			var r = new FileReader();
+			r.onload = function(e) {
+				var contents = e.target.result;
+				doc = new window.Docxgen(contents);
+				var text = document.getElementById("templateText").value;
+				var data = JSON.parse(text);
+				
+				doc.setData(data); //set the templateVariables
+				doc.render() //apply them (replace all occurences of {first_name} by Hipp, ...)
+				out = doc.getZip().generate({
+					type : "blob"
+				})
+				saveAs(out, "output.docx")
+			}
+			r.readAsBinaryString(f);
+		} else {
+			alert("Failed to load file");
+		}
+	};
+	</script>
+
+
+</body>
+</html>
